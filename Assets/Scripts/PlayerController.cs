@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+
 
 public class PlayerController : MonoBehaviour
 {
 
     public float speed;
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
+
+    private int count;
 
     private Rigidbody rb;
     private float movementX;
@@ -14,6 +20,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>(); // implicit self get component
+        count = 0;
+        winTextObject.SetActive(false);
+
+        SetCountText();
     }
 
     // Physics processees
@@ -28,6 +38,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
+            count += 1;
+            SetCountText();
+        }
+
+        if (count >= 8)
+        {
+            winTextObject.SetActive(true);
         }
     }
 
@@ -37,4 +54,9 @@ public class PlayerController : MonoBehaviour
         movementX = movementVector.x;
         movementY = movementVector.y;
     }
+
+    void SetCountText() 
+   {
+       countText.text =  "Count: " + count.ToString();
+   }
 }
