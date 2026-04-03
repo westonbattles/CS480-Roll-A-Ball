@@ -1150,6 +1150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 10
+  extraJumps: 1
   jumpForce: 300
   feetPosition: {x: 0, y: -0.48, z: 0}
   groundLayer:
