@@ -1,49 +1,56 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using NUnit.Framework.Constraints;
 
 
 public class PlayerController : MonoBehaviour
 {
 
     public float speed;
+    public int extraJumps = 1;
     public float jumpForce;
     public Vector3 feetPosition = new Vector3(0f, -0.48f, 0f);
     public LayerMask groundLayer;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
 
-    private int count;
+    private int count = 0;
 
     private Rigidbody rb;
     private float movementX;
     private float movementY;
-    private int extraJumps = 0;
+    private float jumpsRemaining;
     private bool shouldJump = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>(); // implicit self get component
-        count = 0;
         winTextObject.SetActive(false);
 
         SetCountText();
+
+        jumpsRemaining = extraJumps;
     }
 
     // Physics processees
     void FixedUpdate() 
     {   
         Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
-        rb.AddForce(movement * speed);
+        bool grounded = isGrounded();
+
+        rb.AddForce(movement * speed);        
+
+        // reset jumps when we are grounded
+        if (grounded) { jumpsRemaining = extraJumps; }
 
         if (shouldJump)
         {
-            // catch frame where the game thinks we are grounded but we've already added jump force
-            if (isGrounded() )
+            if (grounded || jumpsRemaining > 0)
             {
                 rb.AddForce(Vector3.up * jumpForce);
-                Debug.Log("JUMPED!");
+                if (!grounded) jumpsRemaining -= 1; // if we performed extra jump
             }
 
             shouldJump = false;
