@@ -1150,6 +1150,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 10
+  jumpForce: 300
+  feetPosition: {x: 0, y: -0.48, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   countText: {fileID: 18946660}
   winTextObject: {fileID: 193478367}
 --- !u!114 &408467277
@@ -1221,7 +1226,7 @@ GameObject:
   - component: {fileID: 439414985}
   - component: {fileID: 439414984}
   - component: {fileID: 439414983}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
